@@ -1,0 +1,127 @@
+{% extends "myInfo/index.html" %}
+
+{% block title %}Helloooo{% endblock %}
+
+{% block name %}{{my.name.0}} {{my.name.1}}{% endblock %}
+
+{% block check_awards %}
+{% if my.awards %}
+<li class="nav-item">
+                    <a class="nav-link js-scroll-trigger" href="#awards">Awards</a>
+                </li>
+{% endif %}
+{% endblock %}
+
+{% block basic %}
+	<section class="resume-section p-3 p-lg-5 d-flex align-items-center" id="about">
+            <div class="w-100">
+                <h1 class="mb-0">{{my.name.0}}
+          <span class="text-primary">{{my.name.1}}</span>
+        </h1>
+                <div class="subheading mb-5">{{my.address}} · {{my.phone_number}} ·
+                    <a href="mailto:{{my.email}}">{{my.email}}</a>
+                </div>
+                <p class="lead mb-5">{{my.intro}}</p>
+                <div class="social-icons">
+                    <a href="{{my.linkedin}}">
+                        <i class="fab fa-linkedin-in"></i>
+                    </a>
+                    <a href="{{my.github}}">
+                        <i class="fab fa-github"></i>
+                    </a>
+                    <a href="my.facebook">
+                        <i class="fab fa-facebook-f"></i>
+                    </a>
+                </div>
+            </div>
+        </section>
+{% endblock %}
+
+{% block exp %}
+<section class="resume-section p-3 p-lg-5 d-flex justify-content-center" id="experience">
+            <div class="w-100">
+                <h2 class="mb-5">Experience</h2>
+
+                {% for value in my.list_experience %}
+
+                <div class="resume-item d-flex flex-column flex-md-row justify-content-between mb-5">
+                    <div class="resume-content">
+                        <h3 class="mb-0">{{value.role}}</h3>
+                        <div class="subheading mb-3">{{value.title}}</div>
+                        <p>{{value.content}}</p>
+                    </div>
+                    <div class="resume-date text-md-right">
+                        <span class="text-primary">{{value.time}}</span>
+                    </div>
+                </div>
+
+                {% endfor %}
+
+            </div>
+
+        </section>
+{% endblock %}
+
+{% block edu %}
+<section class="resume-section p-3 p-lg-5 d-flex align-items-center" id="education">
+            <div class="w-100">
+                <h2 class="mb-5">Education</h2>
+
+                {% for i in my.list_education %}
+                <div class="resume-item d-flex flex-column flex-md-row justify-content-between mb-5">
+                    <div class="resume-content">
+                        <h3 class="mb-0">{{i.school_name}}</h3>
+                        <div class="subheading mb-3">{{i.degree}}</div>
+                        <div>{{i.major}}</div>
+                        <p>{{i.gpa}}</p>
+                    </div>
+                    <div class="resume-date text-md-right">
+                        <span class="text-primary">{{i.time}}</span>
+                    </div>
+                </div>
+                {% endfor %}
+
+            </div>
+        </section>
+{% endblock %}
+
+{% block skill %}
+<section class="resume-section p-3 p-lg-5 d-flex align-items-center" id="skills">
+            <div class="w-100">
+                <h2 class="mb-5">Skills</h2>
+
+                <div class="subheading mb-3">Programming Languages, Framework &amp; Tools</div>
+                <ul class="fa-ul mb-0">
+                	{% for i in my.list_skill.lang_framework_tool %}
+                		<li>
+                        	<i class="fa-li fa fa-check"></i>{{i}}
+                    	</li>
+                	{% endfor %}
+                </ul>
+
+                <div class="subheading mb-3">Project</div>
+                <ul class="fa-ul mb-0">
+                	{% for i in my.list_skill.Project %}
+                    <li>
+                        <i class="fa-li fa fa-check"></i>{{i}}</li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </section>
+{% endblock %}
+
+{% block award %}
+{% if my.awards %}
+<section class="resume-section p-3 p-lg-5 d-flex align-items-center" id="awards">
+            <div class="w-100">
+                <h2 class="mb-5">Awards &amp; Certifications</h2>
+                <ul class="fa-ul mb-0">
+                	{% for i in my.awards %}
+                	<li>
+                        <i class="fa-li fa fa-trophy text-warning"></i> {{i}}</li>
+                	{% endfor %}
+                </ul>
+            </div>
+        </section>
+{% endif %}
+{% endblock %}

@@ -1,0 +1,9 @@
+{% extends "tech_news/categories.html" %}
+
+{% block title %}Categories{% endblock %}
+
+{% block content %}
+{% for table in list_tables %}
+	<li>{{table}} </li>
+{% endfor %}
+{% endblock %}

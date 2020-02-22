@@ -51,7 +51,7 @@ class Collection(object):
 
     @updateDB
     def crawl_quantrimang(self, numb=0):
-        _name = "quantrimang"
+        _name = "QuanTriMang"
         _qtm = qtm()
         _list = ()
 
@@ -64,7 +64,7 @@ class Collection(object):
 
     @updateDB
     def crawl_techtalk(self):
-        _name = "techtalk"
+        _name = "TechTalk"
         _tt = tt()
         _list = ()
 
@@ -89,7 +89,7 @@ class Collection(object):
 
     @updateDB
     def crawl_topdev(self):
-        _name = "topdev"
+        _name = "TopDev"
         _td = td()
         _list = ()
 
@@ -98,3 +98,9 @@ class Collection(object):
             _list += tuple(_td.get_articles_attributes())
 
         return (_name, self[0].add_time(_list))
+
+
+a = Collection()
+a.crawl_topdev()
+a.crawl_techtalk()
+a.crawl_quantrimang()

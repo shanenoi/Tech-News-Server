@@ -1,0 +1,132 @@
+{% extends "tech_news/tech-index.html" %}
+
+{% block title %}Tech Blog{% endblock %}
+
+{% block set_title %}{{title}}{% endblock %}
+
+{% block articles %}
+    {% for i in list_articles %}
+        <hr class="invis">
+        <div class="blog-box row">
+           <div class="col-md-4">
+              <div class="post-media">
+                 <a href="tech-single.html" title="">
+                    <img src="{{i.0}}" alt="" class="img-fluid" height="255" width="100">
+                    <div class="hovereffect"></div>
+                 </a>
+              </div>
+           </div>
+           <div class="blog-meta big-meta col-md-8">
+              <h4><a href="{{i.2}}" title="">{{i.1}}</a></h4>
+              <small class="firstsmall"><a class="bg-orange" href="/news/{{i.4}}/" title="">{{i.4}}</a></small>
+              <small>{{i.3}} [time scraped]</small>
+           </div>
+        </div>
+    {% endfor %}
+{% endblock %}
+
+{% block list %}
+    <style type="text/css">.dropbtn {
+       background-color: #487FEC;
+       color: white;
+       padding: 16px;
+       font-size: 16px;
+       border: none;
+       cursor: pointer;
+       }
+       .dropdown {
+       position: relative;
+       display: inline-block;
+       }
+       .dropdown-content {
+       display: none;
+       position: absolute;
+       background-color: #f9f9f9;
+       min-width: 160px;
+       box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+       z-index: 1;
+       }
+       .dropdown-content a {
+       color: black;
+       padding: 12px 16px;
+       text-decoration: none;
+       display: block;
+       }
+       .dropdown-content a:hover {background-color: #f1f1f1}
+       .dropdown:hover .dropdown-content {
+       display: block;
+       }
+       .dropdown:hover .dropbtn {
+       background-color: #487FEC;
+       }
+    </style>
+    <li class="nav-item">
+       <div class="dropdown">
+          <a class="nav-link" href="#">List</a>
+          <div class="dropdown-content">
+             {% for i in authors %}
+                 <a href="/news/{{i}}/">{{i}}</a>
+             {% endfor %}
+          </div>
+       </div>
+    </li>
+{% endblock %}
+
+{% block authors %}
+    {% for i,j in authors.items %}
+    <div class="widget">
+       <h2 class="widget-title">{{i}} Posts</h2>
+       <div class="blog-list-widget">
+          <div class="list-group">
+             {% for s in j %}
+                 <a href="{{s.2}}" class="list-group-item list-group-item-action flex-column align-items-start">
+                    <div class="w-100 justify-content-between">
+                       <img src="{{s.0}}" alt="" class="img-fluid float-left">
+                       <h5 class="mb-1">{{s.1}}</h5>
+                       <small>{{s.3}}</small>
+                    </div>
+                 </a>
+             {% endfor %}
+          </div>
+       </div>
+    </div>
+    {% endfor %}
+{% endblock %}
+
+{% block code %}
+    <script type="text/javascript">
+       var catid = 1;
+          $('#23424523452345345').click(function() {
+              catid += {{step}};
+              $.post('', {
+                  start: catid,
+                  csrfmiddlewaretoken: '{{ csrf_token }}',
+              }, function(data) {
+                  var div = document.getElementById('24239034573094');
+                  data = JSON.parse(data);
+                  for (var i = 0; i < data.length; i++) {
+                      div.innerHTML = div.innerHTML + (
+                          '<hr class="invis">' +
+                          '<div class="blog-box row">' +
+                              '<div class="col-md-4">' +
+                                  '<div class="post-media">' +
+                                      '<a href="tech-single.html" title="">' +
+                                          '<img src="'+data[i][0]+'" alt="" class="img-fluid" height="255" width="100">' +
+                                          '<div class="hovereffect"></div>' +
+                                      '</a>' +
+                                  '</div>' +
+                              '</div>' +
+       
+                              '<div class="blog-meta big-meta col-md-8">' +
+                                  '<h4><a href="'+data[i][2]+'" title="">'+data[i][1]+'</a></h4>' +
+                                  '<small class="firstsmall"><a class="bg-orange" href="/news/'+data[i][4]+'/" title="">'+data[i][4]+'</a></small>' +
+                                  '<small>'+data[i][3]+' [time scraped]</small>' +
+                              '</div>' +
+                          '</div>'
+                      );
+                  }
+              });
+          });
+       
+    </script>
+{% endblock %}

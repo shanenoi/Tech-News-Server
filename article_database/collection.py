@@ -100,7 +100,11 @@ class Collection(object):
         return (_name, self[0].add_time(_list))
 
 
-a = Collection()
-a.crawl_topdev()
-a.crawl_techtalk()
-a.crawl_quantrimang()
+def main():
+    collection = Collection()
+    collection.crawl_topdev()
+    collection.crawl_techtalk()
+    collection.crawl_quantrimang()
+
+if __name__ == '__main__':
+    main()

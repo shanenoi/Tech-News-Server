@@ -1,48 +1,63 @@
 import bs4
+import re
 import html
 import requests
+
 
 class td(object):
 
     def __init__(self):
+        self.url = "https://topdev.vn/blog/wp-admin/admin-ajax.php?td_theme_name=Newspaper&v=7.3"
+        self.categories_id = {
+                'jobs': 143,
+                'lap-trinh': 1,
+                'career': 5,
+                'hr': 7,
+                'cong-nghe': 145,
+                'developer-resources': 951,
+        }
+        self.query_params = lambda currentPage, cate_Id:{
+            'action': 'td_ajax_loop',
+            'loopState[sidebarPosition]': None,
+            'loopState[moduleId]': 10,
+            'loopState[currentPage]': currentPage,
+            'loopState[max_num_pages]': 2,
+            'loopState[atts][category_id]': cate_Id,
+            'loopState[atts][offset]': 4,
+            'loopState[ajax_pagination_infinite_stop]': 0,
+            'loopState[server_reply_html_data]': None
+        }
+
+        self.__html_code = ""
+
+
+    def get_html_code(self, index_page):
         
-        self.url = [
-            "https://topdev.vn/blog/category/jobs/",
-            "https://topdev.vn/blog/category/lap-trinh/",
-            "https://topdev.vn/blog/category/workshop/",
-            "https://topdev.vn/blog/category/hr/",
-            "https://topdev.vn/blog/category/cong-nghe/",
-            "https://topdev.vn/blog/category/developer-resources/"
-        ]
-        self.__html_code__  = ""
-
-
-    def get_html_code(self, index_category):
-
-        self.__html_code__ = requests.get(self.url[index_category]).text
+        for i in self.categories_id.values():
+            self.__html_code += eval(
+                requests.post(
+                    self.url,
+                    data=self.query_params(index_page, list(
+                            self.categories_id.values()
+                        )[index_page]
+                    )
+                ).text
+            )['server_reply_html_data']
 
 
     def get_articles_attributes(self):
 
-        if self.__html_code__ ==  "":
+        if self.__html_code == "":
 
             self.get_html_code(0)
 
-        soup = bs4.BeautifulSoup(
-                self.__html_code__,
-                "html.parser"
-            )
-
-        raw_elements = [
-            i for i in soup.find_all("script")
-            if 'application/ld+json' in str(i)
-        ][1]
-        null = None # define null value in json
-        raw_article_elements = eval(raw_elements.get_text())
-
-        for element in raw_article_elements['hasPart']:
+        self.__html_code = re.sub('<\\\/([^<>]+)>', '</\g<1>>', self.__html_code)
+        soup = bs4.BeautifulSoup(self.__html_code, 'html.parser')
+        for i in soup.find_all('div', {'class': 'td_module_10 td_module_wrap td-animation-stack'}):
+            temp = str(i)
+            
             yield {
-                "image": element['image']['url'],
-                "title": html.unescape(element['headline']),
-                "link": element["mainEntityOfPage"]
+                    'image': re.findall('src="([^"]+)"', temp)[0],
+                    'title': re.findall('title="([^"]+)"', temp)[0],
+                    'link': re.findall('href="([^"]+)"', temp)[0]
             }

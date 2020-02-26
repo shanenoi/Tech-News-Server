@@ -68,7 +68,7 @@ class Collection(object):
         _tt = tt()
         _list = ()
 
-        for i in range(len(_tt.url)):
+        for i in range(MAX_PAGE):
             _tt.get_html_code(i)
             _list += tuple(_tt.get_articles_attributes())
 
@@ -93,9 +93,23 @@ class Collection(object):
         _td = td()
         _list = ()
 
-        for i in range(len(_td.url)):
+        for i in range(MAX_PAGE):
             _td.get_html_code(i)
             _list += tuple(_td.get_articles_attributes())
 
         return (_name, self[0].add_time(_list))
 
+
+def main():
+    col = Collection()
+    print('[+] Quan Tri Mang')
+    col.crawl_quantrimang()
+    print('[+] Tech Talk')
+    col.crawl_techtalk()
+    print('[+] Top Dev')
+    col.crawl_topdev()
+
+
+
+if __name__ == '__main__':
+    main()

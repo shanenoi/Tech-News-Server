@@ -18,7 +18,7 @@ class tt(object):
 
 
     def get_html_code(self, index_category):
-
+        print(f'[=] category: {index_category}')
         self.__html_code__ = requests.get(self.url[index_category]).text
 
 

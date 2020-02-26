@@ -21,7 +21,7 @@ class Article(object):
 
         for table in self.cursor.fetchall():
             self.cursor.execute(
-                f"SELECT * ,'{table[0]}' FROM {table[0]} LIMIT {start}, {limit}"
+                f"SELECT * ,'{table[0]}' FROM {table[0]} ORDER BY time DESC LIMIT {start}, {limit};"
             )
             result += self.cursor.fetchall()
 
@@ -30,7 +30,7 @@ class Article(object):
 
 
     def select_single(self, table, start, limit):
-        self.cursor.execute(f"SELECT *, '{table}' FROM {table} LIMIT {start}, {limit}")
+        self.cursor.execute(f"SELECT *, '{table}' FROM {table} ORDER BY time DESC LIMIT {start}, {limit};")
         self.result = self.cursor.fetchall()
 
 

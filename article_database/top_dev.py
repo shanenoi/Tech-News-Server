@@ -34,13 +34,11 @@ class td(object):
     def get_html_code(self, index_page):
         
         for i in self.categories_id.values():
+            print(f'[=] page: {index_page}: category: {i}')
             self.__html_code += eval(
                 requests.post(
                     self.url,
-                    data=self.query_params(index_page, list(
-                            self.categories_id.values()
-                        )[index_page]
-                    )
+                    data=self.query_params(index_page, i)
                 ).text
             )['server_reply_html_data']
 

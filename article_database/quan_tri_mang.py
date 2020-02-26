@@ -12,7 +12,7 @@ class qtm(object):
 
 
     def get_html_code(self, page_number):
-
+        print(f'[=] page: {page_number}')
         self.__html_code__ = requests.get(self.url + self.query(page_number)).text
 
 
